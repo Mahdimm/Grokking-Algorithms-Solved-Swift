@@ -32,3 +32,37 @@ func selectionSort(list: [Int]) -> [Int] {
 }
 
 print("Sorted Item: \(selectionSort(list: numbers))")
+
+/*
+    Stack Implementation
+*/
+class Stack<T> {
+    private var array = [T]()
+
+    func push(item: T) {
+        array.append(item)
+    }
+
+    func pop() -> T? {
+        guard let lastItem = array.last else {
+            return nil
+        }
+
+        array.removeLast()
+        return lastItem
+    }
+}
+
+extension Stack: CustomStringConvertible {
+    var description: String {
+        "---------Stack---------\n \(array) \n-----------------------"
+    }
+}
+
+let navStack = Stack<String>()
+navStack.push(item: "Hi")
+navStack.push(item: "Mahdi")
+
+navStack.pop()
+
+print(navStack.description)
