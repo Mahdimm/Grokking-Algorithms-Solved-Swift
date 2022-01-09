@@ -96,10 +96,10 @@ func recursiveFibonachi(number: Int) -> Int {
     guard number > 0 else {
         return number
     }
-    return fibonachi(number: number - 1) + fibonachi(number: number - 2)
+    return recursiveFibonachi(number: number - 1) + recursiveFibonachi(number: number - 2)
 }
 
-print(abs(fibonachi(number: 6)))
+print(abs(recursiveFibonachi(number: 6)))
 
 func fibonachi(number: Int) {
     var a1 = 0
@@ -116,4 +116,4 @@ func fibonachi(number: Int) {
     }
 }
 
-recursiveFibonachi(number: 12)
+fibonachi(number: 12)
