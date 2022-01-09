@@ -92,7 +92,7 @@ func factorial(number: Int) -> Int {
 
 print("\(factorial(number: 5))")
 
-func fibonachi(number: Int) -> Int {
+func recursiveFibonachi(number: Int) -> Int {
     guard number > 0 else {
         return number
     }
@@ -116,4 +116,4 @@ func fibonachi(number: Int) {
     }
 }
 
-fibonachi(number: 12)
+recursiveFibonachi(number: 12)
