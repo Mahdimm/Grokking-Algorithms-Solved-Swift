@@ -66,3 +66,54 @@ navStack.push(item: "Mahdi")
 navStack.pop()
 
 print(navStack.description)
+
+/*
+    Recursive Function
+*/
+func printNumberUntil(number: Int) {
+    print(number)
+
+    if number == 1 {
+        return
+    }
+
+    printNumberUntil(number: number - 1)
+}
+
+print(printNumberUntil(number: 10))
+
+func factorial(number: Int) -> Int {
+    if number == 1 {
+        return number
+    } else {
+        return number * factorial(number: number - 1)
+    }
+}
+
+print("\(factorial(number: 5))")
+
+func fibonachi(number: Int) -> Int {
+    guard number > 0 else {
+        return number
+    }
+    return fibonachi(number: number - 1) + fibonachi(number: number - 2)
+}
+
+print(abs(fibonachi(number: 6)))
+
+func fibonachi(number: Int) {
+    var a1 = 0
+    var a2 = 1
+    var calculatedNumber = 0
+
+    for _ in 1..<number {
+        calculatedNumber = a1 + a2
+
+        print("First: \(a1), Second: \(a2) NextNumber: \(calculatedNumber)")
+
+        a1 = a2
+        a2 = calculatedNumber
+    }
+}
+
+fibonachi(number: 12)
