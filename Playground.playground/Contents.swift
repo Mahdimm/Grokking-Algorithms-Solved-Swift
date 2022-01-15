@@ -117,3 +117,23 @@ func fibonachi(number: Int) {
 }
 
 fibonachi(number: 12)
+
+/*
+    Quick Sort
+*/
+
+func quickSort(list: [Int]) -> [Int] {
+    if list.count < 2 {
+        return list
+    } else {
+        let middle = list.count / 2
+        let pivot  = list[middle]
+
+        let leftSide  = list.filter { $0 < pivot }
+        let rightSide = list.filter { $0 > pivot}
+
+        return quickSort(list: leftSide) + [pivot] + quickSort(list: rightSide)
+    }
+}
+
+quickSort(list: numbers)
