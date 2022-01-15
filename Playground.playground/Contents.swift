@@ -137,3 +137,33 @@ func quickSort(list: [Int]) -> [Int] {
 }
 
 quickSort(list: numbers)
+
+/*
+  Multiple array number to each other
+*/
+
+let sampleArray = [5, 10, 7, 3]
+
+func calculateMultipleNumber(list: [Int]) -> [Int] {
+    var changeArray = list
+
+    list.forEach { num in
+        changeArray = changeArray.map { $0 * num }
+    }
+
+    return changeArray
+}
+
+calculateMultipleNumber(list: sampleArray)
+
+func recursiveMultipleNumber(originalList: [Int], changeList: [Int]) -> [Int] {
+    if originalList.count < 1 {
+        return changeList
+    } else {
+        let changeOriginalList = Array(originalList[1..<originalList.count])
+        print(changeOriginalList)
+        return recursiveMultipleNumber(originalList: changeOriginalList, changeList: changeList.map {$0 * originalList[0]})
+    }
+}
+
+recursiveMultipleNumber(originalList: sampleArray, changeList: sampleArray)
