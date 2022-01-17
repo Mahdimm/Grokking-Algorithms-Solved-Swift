@@ -167,3 +167,34 @@ func recursiveMultipleNumber(originalList: [Int], changeList: [Int]) -> [Int] {
 }
 
 recursiveMultipleNumber(originalList: sampleArray, changeList: sampleArray)
+
+/*
+    Queue
+*/
+struct Queue<T> {
+    
+    /// Generic array type
+    private var items = [T]()
+    
+    /// Adding item to queue
+    mutating func enqueue(item: T) {
+        items.append(item)
+    }
+    
+    mutating func dequeue() -> T? {
+        guard items.count > 0 else {
+            return nil
+        }
+        
+        let tempElement = items.first
+        items.remove(at: 0)
+        return tempElement
+    }
+    
+}
+
+var sampleQueue = Queue<Int>()
+sampleQueue.enqueue(item: 10)
+sampleQueue.enqueue(item: 20)
+
+print(sampleQueue.dequeue()!)
