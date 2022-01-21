@@ -172,25 +172,34 @@ recursiveMultipleNumber(originalList: sampleArray, changeList: sampleArray)
     Queue
 */
 struct Queue<T> {
-    
+
     /// Generic array type
     private var items = [T]()
-    
+
+    var isEmpty: Bool {
+        return items.count == 0 ? true : false
+    }
+
     /// Adding item to queue
     mutating func enqueue(item: T) {
         items.append(item)
     }
     
+    /// Adding more than 1 item
+    mutating func enqueue(arrayOfItem: [T]) {
+        items += arrayOfItem
+    }
+
     mutating func dequeue() -> T? {
         guard items.count > 0 else {
             return nil
         }
-        
+
         let tempElement = items.first
         items.remove(at: 0)
         return tempElement
     }
-    
+
 }
 
 var sampleQueue = Queue<Int>()
@@ -198,3 +207,43 @@ sampleQueue.enqueue(item: 10)
 sampleQueue.enqueue(item: 20)
 
 print(sampleQueue.dequeue()!)
+
+/*
+    Graph
+*/
+var graph = [String: [String]]()
+graph["you"] = ["alice", "bob", "claire"]
+graph["bob"] = ["anuj", "peggy"]
+graph["alice"] = ["peggy"]
+graph["claire"] = ["thom", "jonny"]
+graph["anuj"] = []
+graph["peggy"] = []
+graph["thom"] = []
+graph["jonny"] = []
+
+func findMongoSeller(name: String) {
+    var searchedPerson = [String]()
+    var searchQueue = Queue<String>()
+    searchQueue.enqueue(arrayOfItem: graph[name]!)
+    
+    while !searchQueue.isEmpty {
+        guard let person = searchQueue.dequeue() else {
+            return
+        }
+        
+        if !searchedPerson.contains(person) {
+            if person.last == "m" {
+                print("Found mongo seller: \(person)")
+                break
+            } else {
+                if let persons = graph[person] {
+                    searchQueue.enqueue(arrayOfItem: persons)
+                    searchedPerson.append(person)
+                }
+            }
+        }
+    }
+    
+}
+
+findMongoSeller(name: "you")
