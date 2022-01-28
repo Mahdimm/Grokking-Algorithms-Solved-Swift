@@ -184,7 +184,7 @@ struct Queue<T> {
     mutating func enqueue(item: T) {
         items.append(item)
     }
-    
+
     /// Adding more than 1 item
     mutating func enqueue(arrayOfItem: [T]) {
         items += arrayOfItem
@@ -225,12 +225,12 @@ func findMongoSeller(name: String) {
     var searchedPerson = [String]()
     var searchQueue = Queue<String>()
     searchQueue.enqueue(arrayOfItem: graph[name]!)
-    
+
     while !searchQueue.isEmpty {
         guard let person = searchQueue.dequeue() else {
             return
         }
-        
+
         if !searchedPerson.contains(person) {
             if person.last == "m" {
                 print("Found mongo seller: \(person)")
@@ -243,7 +243,105 @@ func findMongoSeller(name: String) {
             }
         }
     }
-    
+
 }
 
 findMongoSeller(name: "you")
+
+/*
+    Dijkstra Algorithm
+*/
+
+extension Dictionary where Value: Equatable {
+    func getKey(forValue: Value) -> Key? {
+        return first { $1 == forValue }?.key
+    }
+}
+
+let startNode = "Start"
+let finishNode = "Finish"
+
+/// Defining all nodes and weight
+var graph = [String: [String: Double]]()
+graph[startNode] = ["A": 6, "B": 2]
+graph["A"] = [finishNode: 1]
+graph["B"] = ["A": 3, finishNode: 5]
+graph[finishNode] = [:]
+
+/// Defining costs dictionary
+var costs = [String: Double]()
+graph.forEach { key, value in
+    value.forEach { key, weight in
+        costs[key] = weight
+    }
+}
+
+costs[finishNode] = Double.infinity
+
+/// Defining parents dictionary
+var parents = [String: String]()
+graph.forEach { key, value in
+    if key == startNode {
+        value.forEach { key, weight in
+            parents[key] = startNode
+        }
+    }
+}
+
+parents[finishNode] = "-"
+
+/// An Array for processed node
+var processedNode = [String]()
+
+// Finding cheapest node
+func findTheCheapestNode() -> String? {
+    let filteredDict = costs.filter { !processedNode.contains($0.key) }
+    let getMaxValue = Array(filteredDict.values).min()
+    
+    guard let wrappedMaxValue = getMaxValue, let foundedKey = costs.getKey(forValue: wrappedMaxValue) else {
+        return nil
+    }
+    
+    return foundedKey
+}
+
+print("Graph Before: \(graph)")
+print("Cost Before: \(costs)")
+print("Parents Before: \(parents)")
+
+// Finding shortest path from `Start` to `Finish`
+func findShortestPath() {
+    var node = findTheCheapestNode()
+    
+    while node != nil {
+        guard let wrappedNode = node, let cost = costs[wrappedNode], let neighbors = graph[wrappedNode] else {
+            return
+        }
+        
+        let neighborsKeys = neighbors.keys
+        
+        for n in neighborsKeys {
+            guard let neighborsCost = neighbors[n], let currentCost = costs[n] else {
+                return
+            }
+            
+            let newCost = cost + neighborsCost
+            if currentCost > newCost {
+                costs[n] = newCost
+                parents[n] = node
+            }
+        }
+        
+        processedNode.append(wrappedNode)
+        node = findTheCheapestNode()
+    }
+    
+}
+
+findShortestPath()
+
+print("//////////////////////////////////////////")
+print("Graph After: \(graph)")
+print("Cost After: \(costs)")
+print("Parents After: \(parents)")
+print("Processed Nodes: \(processedNode)")
