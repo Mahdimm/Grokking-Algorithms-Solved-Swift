@@ -262,17 +262,17 @@ let startNode = "Start"
 let finishNode = "Finish"
 
 /// Defining all nodes and weight
-var graph = [String: [String: Double]]()
-graph[startNode] = ["A": 6, "B": 2]
-graph["A"] = [finishNode: 1]
-graph["B"] = ["A": 3, finishNode: 5]
-graph[finishNode] = [:]
+var dijkstraGraph = [String: [String: Double]]()
+dijkstraGraph[startNode] = ["A": 6, "B": 2]
+dijkstraGraph["A"] = [finishNode: 1]
+dijkstraGraph["B"] = ["A": 3, finishNode: 5]
+dijkstraGraph[finishNode] = [:]
 
 /// Defining costs dictionary
 var costs = [String: Double]()
-graph.forEach { key, value in
-    value.forEach { key, weight in
-        costs[key] = weight
+dijkstraGraph.forEach { key, value in
+    value.forEach { innerKey, weight in
+        costs[innerKey] = weight
     }
 }
 
@@ -280,10 +280,10 @@ costs[finishNode] = Double.infinity
 
 /// Defining parents dictionary
 var parents = [String: String]()
-graph.forEach { key, value in
+dijkstraGraph.forEach { key, value in
     if key == startNode {
-        value.forEach { key, weight in
-            parents[key] = startNode
+        value.forEach { innerKey, weight in
+            parents[innerKey] = startNode
         }
     }
 }
@@ -314,7 +314,7 @@ func findShortestPath() {
     var node = findTheCheapestNode()
     
     while node != nil {
-        guard let wrappedNode = node, let cost = costs[wrappedNode], let neighbors = graph[wrappedNode] else {
+        guard let wrappedNode = node, let cost = costs[wrappedNode], let neighbors = dijkstraGraph[wrappedNode] else {
             return
         }
         
