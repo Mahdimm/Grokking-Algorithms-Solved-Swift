@@ -345,3 +345,40 @@ print("Graph After: \(graph)")
 print("Cost After: \(costs)")
 print("Parents After: \(parents)")
 print("Processed Nodes: \(processedNode)")
+
+/*
+    Greedy Algorithm
+*/
+
+var stateNeeded: Set = ["mt", "wa", "or", "id", "nv", "ut", "ca", "az"]
+
+var stations = [String: Set<String>]()
+stations["kone"] = ["id", "nv", "ut"]
+stations["ktwo"] = ["wa", "id", "mt"]
+stations["kthree"] = ["or", "nv", "ca"]
+stations["kfour"] = ["nv", "ut"]
+stations["kfive"] = ["ca", "az"]
+
+var finalStation = Set<String>()
+
+func findBestStation() {
+    while stateNeeded.count != 0 {
+        var stateCoverd = Set<String>()
+        var bestStation: String!
+        
+        for (station, stateForStation) in stations {
+            let covered = stateNeeded.intersection(stateForStation)
+            if covered.count > stateCoverd.count {
+                bestStation = station
+                stateCoverd = covered
+            }
+        }
+        
+        stateNeeded = stateNeeded.subtracting(stateCoverd)
+        finalStation.insert(bestStation)
+    }
+    
+    print("Final Stations: \(finalStation)")
+}
+
+findBestStation()
